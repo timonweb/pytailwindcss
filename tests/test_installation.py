@@ -26,7 +26,7 @@ def test_version_install():
     VERSIONED_BIN_PATH = get_bin_path()
     with clean_dir(VERSIONED_BIN_PATH):
         pytailwindcss.install(version="v3.0.5")
-        assert "3.0.5" in pytailwindcss.run(), f"v3.0.5 is installed"
+        assert "3.0.5" in pytailwindcss.run(), "v3.0.5 is installed"
 
 
 def test_alternative_install():
