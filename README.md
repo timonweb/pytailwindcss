@@ -42,7 +42,7 @@ Voila!
    tailwindcss
    ```
 
-   If the installation was successful, you should see the help output for the `tailwindcss` command. Use `tailwindcss`
+   If the installation was successful, you should see the message about binary being downloaded on the first run. When download is complete, you should see the help output for the `tailwindcss` command. Use `tailwindcss`
    to create a new project or work with an existing *Tailwind CSS* project.
 
 3. Let's create a new project. Go to the directory where you want to host your *Tailwind CSS* project and initialize it
