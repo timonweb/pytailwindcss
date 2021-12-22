@@ -24,9 +24,7 @@ def test_successful_run_from_custom_bin_path():
 
     with clean_dir(ALTERNATIVE_BIN_PATH):
         pytailwindcss.install(bin_path=ALTERNATIVE_BIN_PATH)
-        assert "MIT License | https://tailwindcss.com" in pytailwindcss.run(
-            "build", bin_path=ALTERNATIVE_BIN_PATH
-        )
+        assert "MIT License | https://tailwindcss.com" in pytailwindcss.run("build", bin_path=ALTERNATIVE_BIN_PATH)
 
 
 def test_unsuccessful_run():

@@ -26,9 +26,7 @@ def test_version_install():
     VERSIONED_BIN_PATH = get_bin_path("v3.0.7")
     with clean_dir(get_bin_path(VERSIONED_BIN_PATH)):
         pytailwindcss.install(version="v3.0.7")
-        assert os.path.isfile(
-            VERSIONED_BIN_PATH
-        ), f"File installed at {VERSIONED_BIN_PATH}"
+        assert os.path.isfile(VERSIONED_BIN_PATH), f"File installed at {VERSIONED_BIN_PATH}"
 
 
 def test_alternative_install():
@@ -38,9 +36,7 @@ def test_alternative_install():
     ALTERNATIVE_BIN_PATH = "/tmp/test-bin/tailwindcss"
     with clean_dir(ALTERNATIVE_BIN_PATH):
         pytailwindcss.install(bin_path=ALTERNATIVE_BIN_PATH)
-        assert os.path.isfile(
-            ALTERNATIVE_BIN_PATH
-        ), f"File installed at {ALTERNATIVE_BIN_PATH}"
+        assert os.path.isfile(ALTERNATIVE_BIN_PATH), f"File installed at {ALTERNATIVE_BIN_PATH}"
 
 
 def test_target():

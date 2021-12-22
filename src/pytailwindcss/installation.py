@@ -35,7 +35,9 @@ def install_binary(version, bin_path):
     except HTTPError as err:
         if err.code == 404:
             raise PyTailwindCssVersionNotFound(
-                f"Couldn't find Tailwind CSS binary for version {version}. Please check if this version exists at https://github.com/tailwindlabs/tailwindcss/releases."
+                f"Couldn't find Tailwind CSS binary for version {version}. "
+                f"Please check if this version exists at "
+                f"https://github.com/tailwindlabs/tailwindcss/releases."
             )
         else:
             raise err

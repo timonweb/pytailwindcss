@@ -4,12 +4,7 @@ from typing import Union
 
 from .exceptions import PyTailwindCssBinaryNotFound
 from .installation import install_binary
-from .utils import (
-    ensure_is_pathlib_path,
-    format_cli_args,
-    get_bin_path,
-    make_subprocess_run_kwargs,
-)
+from .utils import ensure_is_pathlib_path, format_cli_args, get_bin_path, make_subprocess_run_kwargs
 
 
 def run(
@@ -26,21 +21,25 @@ def run(
 
     Use it to run Tailwind CSS binary from Python.
 
-    @param tailwindcss_cli_args: a string or list of arguments to be passed to Tailwindcss binary
+    @param tailwindcss_cli_args: a string or list of arguments to be passed to
+    Tailwindcss binary
     @param cwd: current working directory
     @param bin_path: a path to the tailwindcss executable
-    @param env: an object of environment variables to be passed to the tailwindcss executable
-    @param live_output: if set to 'True' a live output of the tailwindcss binary exec will be printed on the screen. If set to 'False', only the result of the command will be printed out.
-    @param auto_install: if set to 'True', tailwindcss binary will be installed automatically upon the first command call.
-    @param version: sets version of the tailwindcss binary. Defaults to the 'latest' if not provided.
+    @param env: an object of environment variables to be passed to
+    the tailwindcss executable
+    @param live_output: if set to 'True' a live output of the tailwindcss
+    binary exec will be printed on the screen. If set to 'False', only
+    the result of the command will be printed out.
+    @param auto_install: if set to 'True', tailwindcss binary will be installed
+    automatically upon the first command call.
+    @param version: sets version of the tailwindcss binary.
+    Defaults to the 'latest' if not provided.
     """
     if version is None:
         version = "latest"
 
     if bin_path is None:
-        bin_path = get_bin_path(
-            env.get("TAILWINDCSS_VERSION", "latest") if env else "latest"
-        )
+        bin_path = get_bin_path(env.get("TAILWINDCSS_VERSION", "latest") if env else "latest")
 
     if auto_install and not bin_path.exists():
         install(version, bin_path)
