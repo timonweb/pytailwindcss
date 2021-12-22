@@ -1,20 +1,6 @@
 import os
-import pathlib
-
-import pytailwindcss
-from pytailwindcss.utils import format_cli_args, get_bin_path, \
+from pytailwindcss.utils import format_cli_args, \
     make_subprocess_run_kwargs, get_binary_download_url
-
-
-def test_get_bin_path():
-    """
-    It returns correct binary path that includes binary version.
-    """
-    pytailwindcss_lib_path = pathlib.Path(pytailwindcss.__file__)
-    assert get_bin_path(
-        "latest") == pytailwindcss_lib_path / "bin/latest/tailwindcss"
-    assert get_bin_path(
-        "v3.0.7") == pytailwindcss_lib_path / "bin/v3.0.7/tailwindcss"
 
 
 def test_format_cli_args():

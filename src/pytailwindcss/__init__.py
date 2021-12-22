@@ -8,7 +8,7 @@ from .utils import ensure_is_pathlib_path, format_cli_args, get_bin_path, make_s
 
 
 def run(
-    tailwindcss_cli_args: Union[list, str],
+    tailwindcss_cli_args: Union[list, str] = None,
     cwd: Union[pathlib.Path, str] = None,
     bin_path: Union[pathlib.Path, str] = None,
     env: dict = None,
@@ -36,16 +36,16 @@ def run(
     Defaults to the 'latest' if not provided.
     """
     if version is None:
-        version = "latest"
+        version = env.get("TAILWINDCSS_VERSION", "latest") if env else "latest"
 
     if bin_path is None:
-        bin_path = get_bin_path(env.get("TAILWINDCSS_VERSION", "latest") if env else "latest")
+        bin_path = get_bin_path()
 
     if auto_install and not bin_path.exists():
         install(version, bin_path)
 
     try:
-        tailwindcss_cli_args = format_cli_args(tailwindcss_cli_args)
+        tailwindcss_cli_args = format_cli_args(tailwindcss_cli_args or "")
         kwargs = make_subprocess_run_kwargs(cwd, env, live_output)
         output = subprocess.run([str(bin_path)] + tailwindcss_cli_args, **kwargs)
         if live_output:
@@ -65,5 +65,5 @@ def install(version: str = None, bin_path: Union[pathlib.Path, str] = None):
     if version is None:
         version = "latest"
     if bin_path is None:
-        bin_path = get_bin_path(version)
+        bin_path = get_bin_path()
     return install_binary(version, ensure_is_pathlib_path(bin_path))

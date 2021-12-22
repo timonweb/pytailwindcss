@@ -7,14 +7,14 @@ from pytailwindcss.utils import get_bin_path
 
 from .contexts import clean_dir
 
-BIN_PATH = get_bin_path("latest")
+BIN_PATH = get_bin_path()
 
 
 def test_install():
     """
     It installs 'latest' binary at the expected path.
     """
-    with clean_dir(get_bin_path("latest")):
+    with clean_dir(get_bin_path()):
         pytailwindcss.install(bin_path=BIN_PATH)
         assert os.path.isfile(BIN_PATH), f"File installed at {BIN_PATH}"
 
@@ -23,10 +23,10 @@ def test_version_install():
     """
     It installs versioned binary at the expected path.
     """
-    VERSIONED_BIN_PATH = get_bin_path("v3.0.7")
-    with clean_dir(get_bin_path(VERSIONED_BIN_PATH)):
-        pytailwindcss.install(version="v3.0.7")
-        assert os.path.isfile(VERSIONED_BIN_PATH), f"File installed at {VERSIONED_BIN_PATH}"
+    VERSIONED_BIN_PATH = get_bin_path()
+    with clean_dir(VERSIONED_BIN_PATH):
+        pytailwindcss.install(version="v3.0.5")
+        assert "3.0.5" in pytailwindcss.run(), f"v3.0.5 is installed"
 
 
 def test_alternative_install():

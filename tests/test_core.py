@@ -11,7 +11,7 @@ def test_successful_run():
     """
     It installs the executable and successfully runs a build command.
     """
-    with clean_dir(get_bin_path("latest")):
+    with clean_dir(get_bin_path()):
         pytailwindcss.install()
         assert "MIT License | https://tailwindcss.com" in pytailwindcss.run("build")
 
@@ -31,6 +31,6 @@ def test_unsuccessful_run():
     """
     It fails to run build command because executable is not installed.
     """
-    with clean_dir(get_bin_path("latest")):
+    with clean_dir(get_bin_path()):
         with pytest.raises(PyTailwindCssBinaryNotFound):
             pytailwindcss.run("build")
