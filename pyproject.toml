@@ -17,8 +17,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries",
     "Topic :: Utilities",
-    "Environment :: Web Environment",
-    "Framework :: Tailwind"
+    "Environment :: Web Environment"
 ]
 
 packages = [
