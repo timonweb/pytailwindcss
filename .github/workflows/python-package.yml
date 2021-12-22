@@ -29,4 +29,4 @@ jobs:
           poetry install
       - name: Test with tox
         run: |
-          poetry run tox
+          poetry run pytest
