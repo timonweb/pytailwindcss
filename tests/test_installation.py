@@ -59,3 +59,16 @@ def test_format_target():
     assert format_target("darwin", "x86_64") == "macos-x64"
     assert format_target("darwin", "arm64") == "macos-arm64"
     assert format_target("linux", "x86_64") == "linux-x64"
+    assert format_target("linux", "amd64") == "linux-x64"
+
+
+def test_format_target_uppercase_arch():
+    """
+    It formats target names using os name and arch name,
+    even if arch name is uppercase
+    """
+    assert format_target("win32", "X86_64") == "windows-x64.exe"
+    assert format_target("darwin", "X86_64") == "macos-x64"
+    assert format_target("darwin", "ARM64") == "macos-arm64"
+    assert format_target("linux", "X86_64") == "linux-x64"
+    assert format_target("linux", "AMD64") == "linux-x64"
