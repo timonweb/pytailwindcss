@@ -3,7 +3,6 @@ import os
 import pathlib
 import platform
 import shutil
-import ssl
 import stat
 import urllib.request
 from tempfile import mkdtemp
@@ -83,8 +82,6 @@ def download_file(url):
     working_dir = pathlib.Path(temp_dir)
     dest_filename = working_dir / os.path.basename(url)
 
-    # Ensures SSL certificate verification doesn't fail
-    ssl._create_default_https_context = ssl._create_unverified_context
     urllib.request.urlretrieve(url, str(dest_filename))
 
     return dest_filename
