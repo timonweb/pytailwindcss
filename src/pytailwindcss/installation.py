@@ -71,6 +71,7 @@ def format_target(os_name, arch):
         "amd64": f"{os_name}-x64{extension}",
         "x86_64": f"{os_name}-x64{extension}",
         "arm64": f"{os_name}-arm64",
+        "aarch64": f"{os_name}-arm64",
     }[arch.lower()]
 
 
