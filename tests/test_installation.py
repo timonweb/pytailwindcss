@@ -60,6 +60,7 @@ def test_format_target():
     assert format_target("darwin", "arm64") == "macos-arm64"
     assert format_target("linux", "x86_64") == "linux-x64"
     assert format_target("linux", "amd64") == "linux-x64"
+    assert format_target("linux", "aarch64") == "linux-arm64"
 
 
 def test_format_target_uppercase_arch():
@@ -72,3 +73,4 @@ def test_format_target_uppercase_arch():
     assert format_target("darwin", "ARM64") == "macos-arm64"
     assert format_target("linux", "X86_64") == "linux-x64"
     assert format_target("linux", "AMD64") == "linux-x64"
+    assert format_target("linux", "AARCH64") == "linux-arm64"
