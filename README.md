@@ -28,6 +28,14 @@ tailwindcss -i input.css -o output.css --minify
 
 Voila!
 
+Please note that if you are using Python package manager supporting development dependencies, such as `poetry` or `pipenv`,
+`pytailwindcss` should be installed as a development dependency:
+
+```bash
+poetry add pytailwindcss --group dev
+pipenv install pytailwindcss --dev
+```
+
 ## Get started
 
 1. Install `tailwindcss` via `pip` by executing the following command:
