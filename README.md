@@ -35,7 +35,7 @@ Voila!
    ```
    pip install pytailwindcss
    ```
-   
+
 2. [Optional] Preinstall `tailwindcss` binary by running the following command:
 
    ```

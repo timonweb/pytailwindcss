@@ -5,10 +5,7 @@ import pytailwindcss
 
 
 def install() -> None:
-    pytailwindcss.install(
-        os.environ.get("TAILWINDCSS_VERSION", "latest")
-    )
-
+    pytailwindcss.install(os.environ.get("TAILWINDCSS_VERSION", "latest"))
 
 
 def main() -> None:
