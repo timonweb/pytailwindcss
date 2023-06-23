@@ -26,6 +26,7 @@ packages = [
 
 [tool.poetry.scripts]
 tailwindcss = "pytailwindcss.__main__:main"
+tailwindcss_install = "pytailwindcss.__main__:install"
 
 [tool.poetry.dependencies]
 python = "^3.8"

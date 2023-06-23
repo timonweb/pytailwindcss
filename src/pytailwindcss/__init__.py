@@ -39,7 +39,7 @@ def run(
         version = env.get("TAILWINDCSS_VERSION", "latest") if env else "latest"
 
     if bin_path is None:
-        bin_path = get_bin_path()
+        bin_path = get_bin_path(version)
 
     if auto_install and not bin_path.exists():
         install(version, bin_path)
@@ -65,5 +65,5 @@ def install(version: str = None, bin_path: Union[pathlib.Path, str] = None):
     if version is None:
         version = "latest"
     if bin_path is None:
-        bin_path = get_bin_path()
+        bin_path = get_bin_path(version)
     return install_binary(version, ensure_is_pathlib_path(bin_path))

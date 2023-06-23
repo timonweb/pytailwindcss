@@ -30,11 +30,11 @@ def format_cli_args(cli_args):
     return cli_args
 
 
-def get_bin_path():
+def get_bin_path(version="latest"):
     """
     Returns a path for the tailwindcss binary.
     """
-    return pathlib.Path(__file__).parent.resolve() / "bin" / "tailwindcss"
+    return pathlib.Path(__file__).parent.resolve() / "bin" / version / "tailwindcss"
 
 
 def ensure_is_pathlib_path(path):
