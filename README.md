@@ -35,8 +35,16 @@ Voila!
    ```
    pip install pytailwindcss
    ```
+   
+2. [Optional] Preinstall `tailwindcss` binary by running the following command:
 
-2. The `tailwindcss` command should now be available in your terminal. Try to run it:
+   ```
+   tailwindcss_install
+   ```
+
+   If you skip this step, the binary will be downloaded on the first run of `tailwindcss` command.
+
+3. The `tailwindcss` command should now be available in your terminal. Try to run it:
 
    ```
    tailwindcss
@@ -45,7 +53,7 @@ Voila!
    If the installation was successful, you should see the message about binary being downloaded on the first run. When download is complete, you should see the help output for the `tailwindcss` command. Use `tailwindcss`
    to create a new project or work with an existing *Tailwind CSS* project.
 
-3. Let's create a new project. Go to the directory where you want to host your *Tailwind CSS* project and initialize it
+4. Let's create a new project. Go to the directory where you want to host your *Tailwind CSS* project and initialize it
    by running:
 
    ```
@@ -54,13 +62,13 @@ Voila!
 
    This command will create the default *tailwind.config.js* file.
 
-4. Start a watcher by running:
+5. Start a watcher by running:
 
    ```
    tailwindcss -i input.css -o output.css --watch
    ```
 
-5. Compile and minify your CSS for production by running:
+6. Compile and minify your CSS for production by running:
 
    ```
    tailwindcss -i input.css -o output.css --minify
