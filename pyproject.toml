@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytailwindcss"
-version = "0.1.4"
+version = "0.2.0"
 description = "Standalone Tailwind CSS CLI, installable via pip. Use Tailwind CSS without Node.js."
 authors = ["Tim Kamanin <tim@timonweb.com>"]
 homepage = "https://github.com/timonweb/pytailwindcss"
