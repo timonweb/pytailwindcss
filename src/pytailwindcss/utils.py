@@ -9,7 +9,7 @@ def make_subprocess_run_kwargs(cwd=None, env=None, live_output=False):
     """
     opts = {
         "cwd": cwd or os.getcwd(),
-        "env": env or {},
+        "env": env or None,
     }
     if live_output is False:
         opts.update(
