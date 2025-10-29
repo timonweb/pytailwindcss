@@ -141,3 +141,5 @@ cython_debug/
 .idea
 src/pytailwindcss/bin
 src/tests/build
+.claude
+.history

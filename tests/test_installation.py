@@ -1,5 +1,6 @@
 import os.path
 import platform
+import subprocess
 
 import pytailwindcss
 from pytailwindcss.installation import detect_target, format_target
@@ -74,3 +75,43 @@ def test_format_target_uppercase_arch():
     assert format_target("linux", "X86_64") == "linux-x64"
     assert format_target("linux", "AMD64") == "linux-x64"
     assert format_target("linux", "AARCH64") == "linux-arm64"
+
+
+def test_cli_install_command_with_version():
+    """
+    It runs the 'tailwindcss_install' CLI command with TAILWINDCSS_VERSION set
+    and verifies the correct version binary is installed.
+    """
+    test_version = "v4.0.5"
+    expected_bin_path = get_bin_path(test_version)
+
+    with clean_dir(expected_bin_path):
+        # Run the actual CLI command with environment variable
+        env = os.environ.copy()
+        env["TAILWINDCSS_VERSION"] = test_version
+        result = subprocess.run(["tailwindcss_install"], env=env, capture_output=True, text=True)
+
+        assert result.returncode == 0, f"CLI command failed with: {result.stderr}"
+        assert os.path.isfile(expected_bin_path), f"Binary not installed at {expected_bin_path}"
+
+        # Verify the correct version was installed
+        version_check = pytailwindcss.run(version=test_version)
+        assert "4.0.5" in version_check, f"Expected v4.0.5, got: {version_check}"
+
+
+def test_cli_install_command_without_version():
+    """
+    It runs the 'tailwindcss_install' CLI command without TAILWINDCSS_VERSION
+    and verifies the 'latest' version binary is installed.
+    """
+    expected_bin_path = get_bin_path("latest")
+
+    with clean_dir(expected_bin_path):
+        # Run the actual CLI command without TAILWINDCSS_VERSION
+        env = os.environ.copy()
+        # Remove TAILWINDCSS_VERSION if it exists
+        env.pop("TAILWINDCSS_VERSION", None)
+        result = subprocess.run(["tailwindcss_install"], env=env, capture_output=True, text=True)
+
+        assert result.returncode == 0, f"CLI command failed with: {result.stderr}"
+        assert os.path.isfile(expected_bin_path), f"Binary not installed at {expected_bin_path}"
