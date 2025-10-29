@@ -1,6 +1,6 @@
 # Standalone Tailwind CSS CLI, installable via pip
 
-Use *Tailwind CSS* without *Node.js* and install it via pip.
+Use *Tailwind CSS* without *Node.js* — install it via pip.
 
 ## Why
 
@@ -10,38 +10,37 @@ in your team, your Docker container, or your inner circle.
 The *Tailwind CSS* team recently announced a new standalone CLI build that gives you the full power of *Tailwind CLI* in
 a self-contained executable — no *Node.js* or `npm` required.
 
-However, installing such a standalone CLI isn't as easy as running `npm install`, the installation command for *Node.js*.
+However, installing the standalone CLI isn't as easy as running `npm install`.
 
-That's why I decided to make it as simple as running `pip install` command. As a result you can install the standalone *
-Tailwind CLI* via `pip` by running the following command:
+That's why I created this package to make it as simple as running the `pip install` command. Now you can install the standalone *Tailwind CLI* via `pip` by running:
 
 ```bash
 pip install pytailwindcss
 ```
 
-Now you can run `tailwindcss` in your terminal as:
+Now you can run `tailwindcss` in your terminal:
 
-```
+```bash
 tailwindcss -i input.css -o output.css --minify
 ```
 
-Voila!
+Voilà!
 
 ## Get started
 
-1. Install `tailwindcss` via `pip` by executing the following command:
+1. Install `pytailwindcss` via `pip`:
 
-   ```
+   ```bash
    pip install pytailwindcss
    ```
 
-2. **[Recommended]** Preinstall `tailwindcss` binary by running the following command:
+2. **[Recommended]** Preinstall the `tailwindcss` binary:
 
-   ```
+   ```bash
    tailwindcss_install
    ```
 
-   By default, if the `TAILWINDCSS_VERSION` environment variable is not set, the latest binary version will be downloaded. To pin to a specific Tailwind CSS version, set the `TAILWINDCSS_VERSION` environment variable:
+   By default, the latest binary version will be downloaded. To pin to a specific Tailwind CSS version, set the `TAILWINDCSS_VERSION` environment variable before running the command:
 
    ```bash
    # In a Dockerfile
@@ -65,53 +64,48 @@ Voila!
 
    If you skip this step, the binary will be downloaded automatically on the first run of the `tailwindcss` command.
 
-3. The `tailwindcss` command should now be available in your terminal. Try to run it:
+3. The `tailwindcss` command should now be available in your terminal. Try running it:
 
-   ```
+   ```bash
    tailwindcss
    ```
 
-   If the installation was successful, you should see the message about binary being downloaded on the first run. When download is complete, you should see the help output for the `tailwindcss` command. Use `tailwindcss`
-   to create a new project or work with an existing *Tailwind CSS* project.
+   You should see the help output for the `tailwindcss` command. If you skipped step 2, the binary will be downloaded automatically on this first run. Use `tailwindcss` to create a new project or work with an existing *Tailwind CSS* project.
 
-4. Let's create a new project. Go to the directory where you want to host your *Tailwind CSS* project and initialize it
-   by running:
+4. Create a new *Tailwind CSS* project by navigating to your project directory and initializing it:
 
-   ```
+   ```bash
    tailwindcss init
    ```
 
-   This command will create the default *tailwind.config.js* file.
+   This command creates the default *tailwind.config.js* file.
 
-5. Start a watcher by running:
+5. Start a watcher to compile CSS automatically during development:
 
-   ```
+   ```bash
    tailwindcss -i input.css -o output.css --watch
    ```
 
-6. Compile and minify your CSS for production by running:
+6. Compile and minify your CSS for production:
 
-   ```
+   ```bash
    tailwindcss -i input.css -o output.css --minify
    ```
 
-You got it. Please refer to [official Tailwind documentation](https://tailwindcss.com/docs) for more information on
-using *Tailwind CSS* and its CLI.
+That's it! For more information on using *Tailwind CSS* and its CLI, refer to the [official Tailwind CSS documentation](https://tailwindcss.com/docs).
 
 ## Caveats
 
-It's not all roses, though. Giving up *Node.js* means you won't be able to install plugins or additional dependencies for
-your *Tailwind CSS* setup. At the same time, that might not be a dealbreaker. You can still customize *Tailwind CSS* via
-the *tailwind.config.js* file. And the standalone build also comes with all official *Tailwind CSS* plugins
-like `@tailwindcss/aspect-ratio`, `@tailwindcss/forms`, `@tailwindcss/line-clamp`, and `@tailwindcss/typography`. So in
-90% of *Tailwind CSS* usage cases you should be covered, and the setup is so simplified now.
+While this approach simplifies your setup, there are some trade-offs. Without *Node.js*, you won't be able to install third-party plugins or additional dependencies for your *Tailwind CSS* setup. However, this might not be a dealbreaker for most use cases.
 
-Here is what the *Tailwind CSS* team says about going the standalone *Tailwind CSS* route:
-> If you’re working on a project where you don’t otherwise need *Node.js* or `npm`, the standalone build can be a great choice. If Tailwind was the only reason you had a package.json file, this is probably going to feel like a nicer solution.
+You can still customize *Tailwind CSS* via the *tailwind.config.js* file, and the standalone build includes all official *Tailwind CSS* plugins: `@tailwindcss/aspect-ratio`, `@tailwindcss/forms`, `@tailwindcss/line-clamp`, and `@tailwindcss/typography`. This covers approximately 90% of typical *Tailwind CSS* usage scenarios.
 
-## Bugs and suggestions
+Here's what the *Tailwind CSS* team says about the standalone build:
+> If you're working on a project where you don't otherwise need *Node.js* or `npm`, the standalone build can be a great choice. If Tailwind was the only reason you had a package.json file, this is probably going to feel like a nicer solution.
 
-If you have found a bug, please use the issue tracker on GitHub.
+## Bugs and Suggestions
+
+Found a bug or have a suggestion? Please use the issue tracker on GitHub:
 
 [https://github.com/timonweb/pytailwindcss/issues](https://github.com/timonweb/pytailwindcss/issues)
 
