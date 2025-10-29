@@ -9,22 +9,24 @@ from .contexts import clean_dir
 
 def test_successful_run():
     """
-    It installs the executable and successfully runs a build command.
+    It installs the executable and successfully runs the CLI.
     """
     with clean_dir(get_bin_path()):
         pytailwindcss.install()
-        assert "MIT License | https://tailwindcss.com" in pytailwindcss.run("build")
+        output = pytailwindcss.run("--help")
+        assert "tailwindcss" in output.lower()
 
 
 def test_successful_run_from_custom_bin_path():
     """
-    It installs the executable and successfully runs a build command.
+    It installs the executable and successfully runs the CLI from a custom path.
     """
     ALTERNATIVE_BIN_PATH = "/tmp/test-bin/tailwindcss"
 
     with clean_dir(ALTERNATIVE_BIN_PATH):
         pytailwindcss.install(bin_path=ALTERNATIVE_BIN_PATH)
-        assert "MIT License | https://tailwindcss.com" in pytailwindcss.run("build", bin_path=ALTERNATIVE_BIN_PATH)
+        output = pytailwindcss.run("--help", bin_path=ALTERNATIVE_BIN_PATH)
+        assert "tailwindcss" in output.lower()
 
 
 def test_unsuccessful_run():

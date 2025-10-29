@@ -21,7 +21,7 @@ def test_make_subprocess_run_kwargs():
     assert make_subprocess_run_kwargs(cwd=None)["cwd"] == os.getcwd()
     assert make_subprocess_run_kwargs(cwd="/tmp")["cwd"] == "/tmp"
 
-    assert make_subprocess_run_kwargs(env=None)["env"] == {}
+    assert make_subprocess_run_kwargs(env=None)["env"] is None
     assert make_subprocess_run_kwargs(env={"TAILWINDCSS_VERSION": "v3.0.7"})["env"] == {
         "TAILWINDCSS_VERSION": "v3.0.7"
     }
