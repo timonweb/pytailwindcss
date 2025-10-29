@@ -10,8 +10,7 @@ in your team, your Docker container, or your inner circle.
 The *Tailwind CSS* team recently announced a new standalone CLI build that gives you the full power of *Tailwind CLI* in
 a self-contained executable — no *Node.js* or `npm` required.
 
-However, installing such a standalone CLI isn't as easy as running `npm install`, the installation command for *Node.js*
-.
+However, installing such a standalone CLI isn't as easy as running `npm install`, the installation command for *Node.js*.
 
 That's why I decided to make it as simple as running `pip install` command. As a result you can install the standalone *
 Tailwind CLI* via `pip` by running the following command:
@@ -36,13 +35,35 @@ Voila!
    pip install pytailwindcss
    ```
 
-2. [Optional] Preinstall `tailwindcss` binary by running the following command:
+2. **[Recommended]** Preinstall `tailwindcss` binary by running the following command:
 
    ```
    tailwindcss_install
    ```
 
-   If you skip this step, the binary will be downloaded on the first run of `tailwindcss` command.
+   By default, if the `TAILWINDCSS_VERSION` environment variable is not set, the latest binary version will be downloaded. To pin to a specific Tailwind CSS version, set the `TAILWINDCSS_VERSION` environment variable:
+
+   ```bash
+   # In a Dockerfile
+   ENV TAILWINDCSS_VERSION=v4.1.16
+   RUN tailwindcss_install
+
+   # On Linux/macOS
+   export TAILWINDCSS_VERSION=v4.1.16
+   tailwindcss_install
+
+   # On Windows (cmd)
+   set TAILWINDCSS_VERSION=v4.1.16
+   tailwindcss_install
+
+   # On Windows (PowerShell)
+   $env:TAILWINDCSS_VERSION="v4.1.16"
+   tailwindcss_install
+   ```
+
+   To see a list of available Tailwind CSS releases, visit: https://github.com/tailwindlabs/tailwindcss/releases
+
+   If you skip this step, the binary will be downloaded automatically on the first run of the `tailwindcss` command.
 
 3. The `tailwindcss` command should now be available in your terminal. Try to run it:
 
@@ -94,4 +115,4 @@ If you have found a bug, please use the issue tracker on GitHub.
 
 [https://github.com/timonweb/pytailwindcss/issues](https://github.com/timonweb/pytailwindcss/issues)
 
-2021 (c) [Tim Kamanin - A Full Stack Django and Wagtail Developer](https://timonweb.com)
+2021 - 2025 (c) Tim Kamanin — [A Full-Stack Django and Wagtail Developer](https://timonweb.com)
