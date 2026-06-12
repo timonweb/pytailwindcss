@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
-      - uses: pre-commit/action@v3.0.1
+      - uses: astral-sh/setup-uv@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          python-version: '3.13'
+      - run: uvx pre-commit run --all-files --show-diff-on-failure
