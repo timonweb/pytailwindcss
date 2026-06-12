@@ -1,6 +1,6 @@
 [project]
 name = "pytailwindcss"
-version = "0.3.0"
+version = "0.3.1"
 description = "Standalone Tailwind CSS CLI, installable via pip. Use Tailwind CSS without Node.js."
 authors = [{ name = "Tim Kamanin", email = "tim@timonweb.com" }]
 readme = "README.md"
