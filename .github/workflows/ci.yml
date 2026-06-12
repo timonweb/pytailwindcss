@@ -8,8 +8,19 @@ on:
   pull_request:
 
 jobs:
-  tests:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.14'
+      - run: uvx pre-commit run --all-files --show-diff-on-failure
 
+  tests:
+    needs: [ pre-commit ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,7 +53,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          python-version: '3.11'
+          python-version: '3.14'
 
       - name: Build
         run: uv build
