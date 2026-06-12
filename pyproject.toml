@@ -1,12 +1,12 @@
-[tool.poetry]
+[project]
 name = "pytailwindcss"
 version = "0.3.0"
 description = "Standalone Tailwind CSS CLI, installable via pip. Use Tailwind CSS without Node.js."
-authors = ["Tim Kamanin <tim@timonweb.com>"]
-homepage = "https://github.com/timonweb/pytailwindcss"
+authors = [{ name = "Tim Kamanin", email = "tim@timonweb.com" }]
 readme = "README.md"
-license = "MIT"
+license = { text = "MIT" }
 keywords = ["cli", "tailwind", "css"]
+requires-python = ">=3.11"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -20,22 +20,24 @@ classifiers = [
     "Topic :: Utilities",
     "Environment :: Web Environment"
 ]
+dependencies = []
 
-packages = [
-    { include = "pytailwindcss", from = "src" }
-]
+[project.urls]
+Homepage = "https://github.com/timonweb/pytailwindcss"
 
-[tool.poetry.scripts]
+[project.scripts]
 tailwindcss = "pytailwindcss.__main__:main"
 tailwindcss_install = "pytailwindcss.__main__:install"
 
-[tool.poetry.dependencies]
-python = "^3.11"
-
-[tool.poetry.dev-dependencies]
-pytest = "^8.4.2"
-pre-commit = "^4.3.0"
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "pre-commit>=4.6.0",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pytailwindcss"]
