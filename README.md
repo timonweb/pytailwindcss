@@ -72,7 +72,7 @@ Voilà!
 
    You should see the help output for the `tailwindcss` command. If you skipped step 2, the binary will be downloaded automatically on this first run. Use `tailwindcss` to create a new project or work with an existing *Tailwind CSS* project.
 
-4. Create a new *Tailwind CSS* project by navigating to your project directory and initializing it:
+4. For tailwind version below 4 and above 3, follow this step otherwise skip to 9th step - Create a new *Tailwind CSS* project by navigating to your project directory and initializing it:
 
    ```bash
    tailwindcss init
@@ -80,13 +80,29 @@ Voilà!
 
    This command creates the default *tailwind.config.js* file.
 
-5. Start a watcher to compile CSS automatically during development:
+6. For Tailwind version 4 and above create "tailwind.config.js" manually and add html file tracker details
+   ```bash
+   export default {
+    content: [
+        "./app/**/*.html",
+        "./app/*.html",
+        "./app/**/*.js",
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+   };
+   ```
+
+7. For Tailwind version 4 and above input.css file needs to import @import "tailwindcss"; only
+8.  Start a watcher to compile CSS automatically during development:
 
    ```bash
    tailwindcss -i input.css -o output.css --watch
    ```
 
-6. Compile and minify your CSS for production:
+9. Compile and minify your CSS for production:
 
    ```bash
    tailwindcss -i input.css -o output.css --minify
