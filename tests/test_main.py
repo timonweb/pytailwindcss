@@ -69,3 +69,28 @@ def test_install_reports_errors_without_traceback(monkeypatch: pytest.MonkeyPatc
         __main__.install()
 
     assert exc_info.value.code == "tailwindcss_install: no network"
+
+
+def test_main_exits_quietly_on_ctrl_c(monkeypatch: pytest.MonkeyPatch) -> None:
+    def interrupted_run(*args: object, **kwargs: object) -> None:
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(pytailwindcss, "run", interrupted_run)
+    monkeypatch.setattr(__main__.sys, "argv", ["tailwindcss", "--watch"])
+
+    with pytest.raises(SystemExit) as exc_info:
+        __main__.main()
+
+    assert exc_info.value.code == 130
+
+
+def test_install_exits_quietly_on_ctrl_c(monkeypatch: pytest.MonkeyPatch) -> None:
+    def interrupted_install(version: str | None = None) -> None:
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(pytailwindcss, "install", interrupted_install)
+
+    with pytest.raises(SystemExit) as exc_info:
+        __main__.install()
+
+    assert exc_info.value.code == 130

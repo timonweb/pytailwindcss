@@ -3,6 +3,7 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
+        exclude: ^assets/.*\.gif$  # README demo, deliberately committed
       - id: check-ast
       - id: check-case-conflict
       - id: check-json

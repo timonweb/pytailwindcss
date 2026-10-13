@@ -28,6 +28,8 @@ Voilà!
 
 ## Get started
 
+![Installing pytailwindcss, then watching and building CSS with the tailwindcss command](https://raw.githubusercontent.com/timonweb/pytailwindcss/main/assets/get-started.gif)
+
 1. Install `pytailwindcss` via `pip` (or `uv add pytailwindcss`):
 
    ```bash

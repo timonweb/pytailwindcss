@@ -144,3 +144,4 @@ src/pytailwindcss/bin
 .history
 
 _devcontext/
+*.tape

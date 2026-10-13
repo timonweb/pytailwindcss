@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1 (unreleased)
+
+### Fixed
+
+- Pressing Ctrl+C in `tailwindcss` (e.g. to stop `--watch`) or `tailwindcss_install` no longer prints a Python `KeyboardInterrupt` traceback; the command exits with status 130.
+
 ## 0.4.0 (2026-10-13)
 
 ### Added
