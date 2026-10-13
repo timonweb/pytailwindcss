@@ -1,14 +1,23 @@
 import os
 import pathlib
+import platform
 import shlex
+from collections.abc import Mapping, Sequence
+from typing import Any
+
+BIN_DIR_ENV_VAR = "TAILWINDCSS_BIN_DIR"
 
 
-def make_subprocess_run_kwargs(cwd=None, env=None, live_output=False):
+def make_subprocess_run_kwargs(
+    cwd: str | os.PathLike[str] | None = None,
+    env: Mapping[str, str] | None = None,
+    live_output: bool = False,
+) -> dict[str, Any]:
     """
     Creates an object with additional kwargs for the subprocess.run command.
     """
-    opts = {
-        "cwd": cwd or os.getcwd(),
+    opts: dict[str, Any] = {
+        "cwd": cwd,
         "env": env or None,
     }
     if live_output is False:
@@ -21,29 +30,31 @@ def make_subprocess_run_kwargs(cwd=None, env=None, live_output=False):
     return opts
 
 
-def format_cli_args(cli_args):
+def format_cli_args(cli_args: Sequence[str] | str) -> list[str]:
     """
     Formats cli_args as list if they're string.
     """
     if isinstance(cli_args, str):
         return shlex.split(cli_args)
-    return cli_args
+    return list(cli_args)
 
 
-def get_bin_path(version="latest"):
+def get_bin_path(version: str = "latest") -> pathlib.Path:
     """
     Returns a path for the tailwindcss binary.
+
+    Binaries live inside the package directory (one per virtualenv) unless
+    the TAILWINDCSS_BIN_DIR environment variable points elsewhere.
     """
-    return pathlib.Path(__file__).parent.resolve() / "bin" / version / "tailwindcss"
+    bin_dir = os.environ.get(BIN_DIR_ENV_VAR)
+    # Resolved, because run(cwd=...) would otherwise look for a relative binary path inside cwd.
+    root = pathlib.Path(bin_dir).expanduser().resolve() if bin_dir else pathlib.Path(__file__).parent.resolve() / "bin"
+    # Windows' CreateProcess appends ".exe" to extensionless paths, so the binary must carry it.
+    name = "tailwindcss.exe" if platform.system() == "Windows" else "tailwindcss"
+    return root / version / name
 
 
-def ensure_is_pathlib_path(path):
-    if isinstance(path, str):
-        return pathlib.Path(path)
-    return path
-
-
-def get_binary_download_url(version, binary_name):
+def get_binary_download_url(version: str, binary_name: str) -> str:
     """
     Get a binary download URL for a version and binary_name
     """

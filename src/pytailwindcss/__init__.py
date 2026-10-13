@@ -1,69 +1,68 @@
+import os
 import pathlib
 import subprocess
-from typing import Union
+from collections.abc import Mapping, Sequence
+from typing import TypeAlias
 
 from .exceptions import PyTailwindCssBinaryNotFound
 from .installation import install_binary
-from .utils import ensure_is_pathlib_path, format_cli_args, get_bin_path, make_subprocess_run_kwargs
+from .utils import format_cli_args, get_bin_path, make_subprocess_run_kwargs
+
+StrPath: TypeAlias = str | os.PathLike[str]
 
 
 def run(
-    tailwindcss_cli_args: Union[list, str] = None,
-    cwd: Union[pathlib.Path, str] = None,
-    bin_path: Union[pathlib.Path, str] = None,
-    env: dict = None,
+    tailwindcss_cli_args: Sequence[str] | str | None = None,
+    cwd: StrPath | None = None,
+    bin_path: StrPath | None = None,
+    env: Mapping[str, str] | None = None,
     live_output: bool = False,
     auto_install: bool = False,
-    version: str = None,
-):
+    version: str | None = None,
+) -> str | subprocess.CompletedProcess[bytes]:
     """
-    Main entry point to the Tailwind CSS binary.
+    Runs the Tailwind CSS binary from Python.
 
-    Use it to run Tailwind CSS binary from Python.
-
-    @param tailwindcss_cli_args: a string or list of arguments to be passed to
-    Tailwindcss binary
-    @param cwd: current working directory
-    @param bin_path: a path to the tailwindcss executable
-    @param env: an object of environment variables to be passed to
-    the tailwindcss executable
-    @param live_output: if set to 'True' a live output of the tailwindcss
-    binary exec will be printed on the screen. If set to 'False', only
-    the result of the command will be printed out.
-    @param auto_install: if set to 'True', tailwindcss binary will be installed
-    automatically upon the first command call.
-    @param version: sets version of the tailwindcss binary.
-    Defaults to the 'latest' if not provided.
+    tailwindcss_cli_args are passed to the binary, either as a list or as a
+    shell-style string. env replaces the binary's environment; its
+    TAILWINDCSS_VERSION picks the version when version isn't given ('latest'
+    otherwise). With live_output the binary writes straight to the terminal and
+    the CompletedProcess is returned; without it, the captured stdout is
+    returned and a non-zero exit raises subprocess.CalledProcessError.
+    auto_install downloads the binary first if it's missing.
     """
     if version is None:
         version = env.get("TAILWINDCSS_VERSION", "latest") if env else "latest"
 
-    if bin_path is None:
-        bin_path = get_bin_path(version)
+    bin_path = get_bin_path(version) if bin_path is None else pathlib.Path(bin_path)
 
     if auto_install and not bin_path.exists():
         install(version, bin_path)
 
+    args = format_cli_args(tailwindcss_cli_args or "")
+    kwargs = make_subprocess_run_kwargs(cwd, env, live_output)
     try:
-        tailwindcss_cli_args = format_cli_args(tailwindcss_cli_args or "")
-        kwargs = make_subprocess_run_kwargs(cwd, env, live_output)
-        output = subprocess.run([str(bin_path)] + tailwindcss_cli_args, **kwargs)
-        if live_output:
-            return output
-        return output.stdout.decode().strip()
+        output = subprocess.run([str(bin_path), *args], **kwargs)
     except FileNotFoundError as err:
-        raise PyTailwindCssBinaryNotFound(err)
+        # A missing cwd raises FileNotFoundError too; only a missing binary means "not installed".
+        if bin_path.exists():
+            raise
+        raise PyTailwindCssBinaryNotFound(
+            f"Tailwind CSS binary not found at {bin_path}. Run 'tailwindcss_install' or pass auto_install=True."
+        ) from err
+
+    if live_output:
+        return output
+    return output.stdout.decode().strip()
 
 
-def install(version: str = None, bin_path: Union[pathlib.Path, str] = None):
+def install(version: str | None = None, bin_path: StrPath | None = None) -> pathlib.Path:
     """
-    Installs tailwindcss binary.
-    @param version: sets version of the tailwindcss binary. Defaults to the 'latest' if not provided.
-    @param bin_path: sets bin path for the tailwindcss binary. Sets default location is not provided.
-    @return:
+    Installs the Tailwind CSS binary and returns its path.
+
+    version defaults to 'latest'; bin_path defaults to the location run() looks in.
     """
     if version is None:
         version = "latest"
-    if bin_path is None:
-        bin_path = get_bin_path(version)
-    return install_binary(version, ensure_is_pathlib_path(bin_path))
+    bin_path = get_bin_path(version) if bin_path is None else pathlib.Path(bin_path)
+    return install_binary(version, bin_path)

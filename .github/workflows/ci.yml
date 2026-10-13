@@ -1,61 +1,83 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Run tests
+name: CI
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
-          fetch-depth: 0
-      - uses: astral-sh/setup-uv@v7
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10
         with:
           python-version: '3.14'
       - run: uvx pre-commit run --all-files --show-diff-on-failure
 
   tests:
     needs: [ pre-commit ]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
+        os: [ ubuntu-latest ]
         python-version: [ "3.11", "3.12", "3.13", "3.14" ]
-
+        include:
+          # Binary selection is OS-specific, so the newest Python also runs on macOS and Windows.
+          - os: macos-latest
+            python-version: "3.14"
+          - os: windows-latest
+            python-version: "3.14"
     steps:
-      - uses: actions/checkout@v5
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: uv sync
-      - name: Test with pytest
-        run: uv run pytest
+      - run: uv sync --locked
+      - run: uv run pytest --cov --cov-report=term
+
+  tests-alpine:
+    needs: [ pre-commit ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      # JavaScript actions can't run inside Alpine containers (the runner's Node is glibc-only),
+      # so the musl test run happens through a plain `docker run`. Tailwind's musl builds link
+      # against libstdc++ and libgcc, which Alpine doesn't ship by default.
+      - run: >-
+          docker run --rm -v "$PWD:/src" -w /src -e UV_PYTHON_DOWNLOADS=never python:3.14-alpine
+          sh -c "apk add --no-cache libstdc++ libgcc && pip install --root-user-action=ignore uv && uv sync --locked && uv run pytest"
 
   release:
-    needs: [ tests ]
+    needs: [ tests, tests-alpine ]
     if: success() && startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-24.04
     environment: release
-
     permissions:
       contents: read
       id-token: write
-
     steps:
-      - uses: actions/checkout@v5
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10
         with:
           python-version: '3.14'
-
-      - name: Build
-        run: uv build
-
+      - name: Check tag matches project version
+        run: test "${GITHUB_REF_NAME#v}" = "$(uv version --short)"
+      - run: uv build
       - uses: pypa/gh-action-pypi-publish@release/v1

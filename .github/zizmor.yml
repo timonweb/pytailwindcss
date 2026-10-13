@@ -1,0 +1,6 @@
+rules:
+  unpinned-uses:
+    config:
+      # Major-version tags kept current by Dependabot, rather than SHA pins.
+      policies:
+        "*": ref-pin

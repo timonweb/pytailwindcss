@@ -140,6 +140,7 @@ cython_debug/
 .DS_Store
 .idea
 src/pytailwindcss/bin
-src/tests/build
 .claude
 .history
+
+_devcontext/

@@ -8,3 +8,7 @@ class PyTailwindCssBinaryNotFound(PyTailwindCssException):
 
 class PyTailwindCssVersionNotFound(PyTailwindCssException):
     pass
+
+
+class PyTailwindCssChecksumMismatch(PyTailwindCssException):
+    pass

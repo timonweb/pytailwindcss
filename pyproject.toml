@@ -1,43 +1,88 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatchling>=1.27" ]
+
 [project]
 name = "pytailwindcss"
-version = "0.3.1"
+version = "0.4.0"
 description = "Standalone Tailwind CSS CLI, installable via pip. Use Tailwind CSS without Node.js."
-authors = [{ name = "Tim Kamanin", email = "tim@timonweb.com" }]
 readme = "README.md"
-license = { text = "MIT" }
-keywords = ["cli", "tailwind", "css"]
+keywords = [ "cli", "css", "tailwind" ]
+license = "MIT"
+license-files = [ "LICENSE" ]
+authors = [ { name = "Tim Kamanin", email = "tim@timonweb.com" } ]
 requires-python = ">=3.11"
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
-    "Operating System :: OS Independent",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Utilities",
-    "Environment :: Web Environment"
+  "Development Status :: 4 - Beta",
+  "Environment :: Web Environment",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Utilities",
+  "Typing :: Typed",
 ]
 dependencies = []
-
-[project.urls]
-Homepage = "https://github.com/timonweb/pytailwindcss"
-
-[project.scripts]
-tailwindcss = "pytailwindcss.__main__:main"
-tailwindcss_install = "pytailwindcss.__main__:install"
+urls.Changelog = "https://github.com/timonweb/pytailwindcss/blob/main/CHANGELOG.md"
+urls.Homepage = "https://github.com/timonweb/pytailwindcss"
+urls.Issues = "https://github.com/timonweb/pytailwindcss/issues"
+urls.Source = "https://github.com/timonweb/pytailwindcss"
+scripts.tailwindcss = "pytailwindcss.__main__:main"
+scripts.tailwindcss_install = "pytailwindcss.__main__:install"
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.3",
-    "pre-commit>=4.6.0",
+  "mypy>=2.4",
+  "pre-commit>=4.6",
+  "pytest>=9.0.3",
+  "pytest-cov>=7",
+  "ruff>=0.17",
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[tool.hatch]
+build.targets.wheel.packages = [ "src/pytailwindcss" ]
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/pytailwindcss"]
+[tool.ruff]
+line-length = 119
+lint.select = [ "B", "C4", "E", "F", "I", "SIM", "UP", "W" ]
+
+[tool.repo-review]
+ignore = [
+  "PY004", # README covers a package this size; no docs folder
+  "PY007", # uv run is the task runner
+  "PC170", # no reStructuredText in the repo
+  "PC180", # no markdown formatter: README is hand-formatted
+  "PC901", # pre-commit.ci not used; hooks run in GitHub Actions
+  "PC902",
+  "PC903",
+  "MY101", # mypy strict deliberately out of scope (moderate strictness)
+]
+
+[tool.pyproject-fmt]
+max_supported_python = "3.14"
+
+[tool.mypy]
+files = [ "src", "tests" ]
+python_version = "3.11"
+warn_unused_ignores = true
+warn_unreachable = true
+enable_error_code = [ "ignore-without-code", "redundant-expr", "truthy-bool" ]
+overrides = [ { module = "pytailwindcss.*", disallow_untyped_defs = true } ]
+
+[tool.pytest]
+addopts = [ "-ra" ]
+filterwarnings = [ "error" ]
+log_level = "INFO"
+markers = [ "network: downloads real Tailwind CSS binaries from GitHub" ]
+minversion = "9.0"
+strict = true
+testpaths = [ "tests" ]
+
+[tool.coverage]
+run.source = [ "pytailwindcss" ]
+run.branch = true
+report.show_missing = true
