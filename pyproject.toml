@@ -4,7 +4,7 @@ requires = [ "hatchling>=1.27" ]
 
 [project]
 name = "pytailwindcss"
-version = "0.4.1"
+version = "0.4.2"
 description = "Standalone Tailwind CSS CLI, installable via pip. Use Tailwind CSS without Node.js."
 readme = "README.md"
 keywords = [ "cli", "css", "tailwind" ]

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2 (2026-10-13)
+
+### Changed
+
+- README shows a captioned demo of the "Get started" steps.
+
 ## 0.4.1 (2026-10-13)
 
 ### Fixed
